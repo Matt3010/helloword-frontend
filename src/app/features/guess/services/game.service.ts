@@ -3,7 +3,6 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Game} from '../entities/game';
 import {environment} from '../../../../environments/environment';
-import {ErrorService} from '../../common/services/error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,21 +12,18 @@ export class GameService {
   private readonly _globalGame$: BehaviorSubject<Game | null> = new BehaviorSubject<Game | null>(null);
   public readonly globalGame$: Observable<Game | null> = this._globalGame$.asObservable();
 
-  constructor(
-    private readonly http: HttpClient,
-    private readonly errorService: ErrorService
-  ) {
+  constructor(private readonly http: HttpClient) {
     this.current();
   }
 
   public current(): void {
     this.http.get<Game | null>(`${this.apiUrl}/current`)
       .subscribe({
-        next: (game: Game | null) => {
+        next: (game: Game | null): void => {
             this._globalGame$.next(game);
         },
-        error: (err: Error) => {
-          this.errorService.pushError(err);
+        error: (): void => {
+          // TODO - Implement error.
         }
       });
   }
