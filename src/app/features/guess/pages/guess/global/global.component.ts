@@ -28,11 +28,18 @@ export class GlobalComponent {
     });
   }
 
-  protected preventSingleLetterDelete(event: KeyboardEvent) {
+  protected preventSingleLetterDelete(event: KeyboardEvent): void {
+    const value: string = this.initialControl.value ?? '';
+
     if (
       (event.key === 'Backspace' || event.key === 'Delete') &&
-      this.initialControl.value.length === 1
+      value.length === 1
     ) {
+      event.preventDefault();
+      return;
+    }
+
+    if (event.key.toLowerCase() === 'a' && event.ctrlKey) {
       event.preventDefault();
     }
   }
