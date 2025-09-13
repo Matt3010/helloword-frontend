@@ -1,9 +1,10 @@
-import {AuthMethod} from './authMethod';
-import {Profile} from './profile';
-
 export interface User {
   id: string
-  createdAt: string
-  profile: Profile
-  authMethods: AuthMethod[]
+  createdAt: Date
+  picture?: string | null
+  score: number
+  attemptsLeft: number
+  lastLogin: Date
+  lastReset: Date
+  email: string
 }

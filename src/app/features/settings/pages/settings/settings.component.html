@@ -1,0 +1,17 @@
+@let initial = (gameService.globalGame$ | async)?.initial;
+@if(initial) {
+  <div class="settings-container row m-0"
+       [style.border-bottom-color]="letterToHex(initial, 80, 70)"
+       [ngClass]="{'collapsed': !showSettings()}">
+
+    <div class="settings-content row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-4 m-0">
+      <div class="col">
+        <app-user-info></app-user-info>
+      </div>
+      <div class="col d-flex flex-column gap-4">
+      </div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+  </div>
+}

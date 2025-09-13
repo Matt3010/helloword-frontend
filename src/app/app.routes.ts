@@ -17,7 +17,7 @@ export const routes: Routes = [
       {
         path: 'guess',
         loadChildren: () =>
-          import('./guess/guess.routes').then((r): Routes => r.guessRoutes),
+          import('./features/guess/guess.routes').then((r): Routes => r.guessRoutes),
         resolve: [onlyLoggedGuard]
       },
       {

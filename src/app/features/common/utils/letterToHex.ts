@@ -1,6 +1,6 @@
 // Map a letter (or any string) to a deterministic hex color, never black
 export function letterToHex(letter: string, saturation: number = 65, lightness: number = 55): string {
-  if (!letter) return '#373737'; // fallback, evita nero
+  if (!letter) return '#ffffff'; // fallback, evita nero
   const ch = letter[0].toLowerCase();
   let hue: number;
 

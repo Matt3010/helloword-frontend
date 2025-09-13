@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {GameService} from '../../../services/game.service';
 import {letterToHex} from '../../../../common/utils/letterToHex';
-import {FormsModule} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AlwaysFocusDirective} from '../../../../common/directives/always-focus.directive';
 import {Game} from '../../../entities/game';
 
@@ -10,26 +10,33 @@ import {Game} from '../../../entities/game';
   imports: [
     FormsModule,
     AlwaysFocusDirective,
+    ReactiveFormsModule,
   ],
   templateUrl: './global.component.html',
   styleUrl: './global.component.scss'
 })
 export class GlobalComponent {
-  protected initial: string = '';
+  protected initialControl: FormControl<string> = new FormControl<string>('', { nonNullable: true });
 
   public constructor(
       protected readonly gameService: GameService,
   ) {
-    this.gameService.globalGame$.subscribe((game: Game | null) => {
-      if (game) {
-        this.initial = game.initial;
-      }
+    this.gameService.globalGame$.subscribe((game: Game | null): void => {
+        if (game) {
+          this.initialControl.setValue(game.initial);
+        }
     });
   }
 
-  protected chooseCorrectPlaceholder(): string {
-    return this.initial.length === 0 ? 'No game' : 'Type a word...';
+  protected preventSingleLetterDelete(event: KeyboardEvent) {
+    if (
+      (event.key === 'Backspace' || event.key === 'Delete') &&
+      this.initialControl.value.length === 1
+    ) {
+      event.preventDefault();
+    }
   }
+
 
   protected readonly letterToHex: (letter: string, saturation?: number, lightness?: number) => string = letterToHex;
 }

@@ -1,0 +1,31 @@
+$padding: 20px;
+
+.settings-container {
+  height: 300px;
+  width: 100%;
+  overflow: hidden;
+  border-bottom: solid 1px;
+  transition: height 0.3s ease-in-out;
+
+  .settings-content {
+    padding: $padding;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out 0.1s;
+  }
+
+  // Stile per lo stato collassato
+  &.collapsed {
+    height: 0;
+    transition: height 0.3s ease-in-out 0.2s;
+
+    .settings-content {
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+  }
+}
+
+
+.title {
+  font-size: 20px;
+}
