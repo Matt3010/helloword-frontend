@@ -26,7 +26,7 @@ export class AuthService {
     this._user$.next(user);
   }
 
-  private me(): void {
+  public me(): void {
     this.http.get<User>(`${this.apiUrl}/me`).subscribe((user: User): void => {
       this.saveUser(user);
     })

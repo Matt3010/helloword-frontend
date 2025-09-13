@@ -4,10 +4,9 @@ import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
   selector: '[appRotateOnHover]'
 })
 export class RotateOnHoverDirective {
-  private rotation = 45; // degrees to rotate
+  private readonly rotation: number = 45;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {
-    // Set initial transition for smooth animation
+  constructor(private readonly el: ElementRef, private readonly renderer: Renderer2) {
     this.renderer.setStyle(this.el.nativeElement, 'transition', 'transform 0.3s ease');
   }
 

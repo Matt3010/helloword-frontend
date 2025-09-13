@@ -1,9 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild, ElementRef} from '@angular/core'; // Importa ViewChild e ElementRef
 import {GameService} from '../../../services/game.service';
 import {letterToHex} from '../../../../common/utils/letterToHex';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AlwaysFocusDirective} from '../../../../common/directives/always-focus.directive';
 import {Game} from '../../../entities/game';
+import {AutofitFontDirective} from '../../../../common/directives/auto-fit.directive';
+import {BounceOnClickDirective} from '../../../../common/directives/bounce-click.directive';
 
 @Component({
   selector: 'app-global',
@@ -11,39 +13,74 @@ import {Game} from '../../../entities/game';
     FormsModule,
     AlwaysFocusDirective,
     ReactiveFormsModule,
+    AutofitFontDirective,
+    BounceOnClickDirective,
   ],
   templateUrl: './global.component.html',
   styleUrl: './global.component.scss'
 })
 export class GlobalComponent {
-  protected initialControl: FormControl<string> = new FormControl<string>('', { nonNullable: true });
+  @ViewChild('initialInput') private readonly initialInput!: ElementRef<HTMLInputElement>;
+
+  protected gameForm: FormGroup<{
+    id: FormControl<string>;
+    initial: FormControl<string>;
+    createdAt: FormControl<Date>;
+  }> = new FormGroup({
+    id: new FormControl<string>('', { nonNullable: true }),
+    initial: new FormControl<string>('', { nonNullable: true }),
+    createdAt: new FormControl<Date>(new Date(), { nonNullable: true }),
+  });
+
 
   public constructor(
-      protected readonly gameService: GameService,
+    protected readonly gameService: GameService,
   ) {
     this.gameService.globalGame$.subscribe((game: Game | null): void => {
-        if (game) {
-          this.initialControl.setValue(game.initial);
-        }
+      if (game) {
+        this.gameForm.setValue({
+          id: game.id,
+          initial: game.initial,
+          createdAt: new Date(game.createdAt),
+        });
+      }
     });
   }
 
+  protected moveCursorToEnd(): void {
+    setTimeout(() => {
+      const input: HTMLInputElement = this.initialInput.nativeElement;
+      const length: number = input.value.length;
+      input.setSelectionRange(length, length);
+    }, 0);
+  }
+
   protected preventSingleLetterDelete(event: KeyboardEvent): void {
-    const value: string = this.initialControl.value ?? '';
+    const value: string = this.gameForm.controls.initial.value ?? '';
 
     if (
       (event.key === 'Backspace' || event.key === 'Delete') &&
       value.length === 1
     ) {
       event.preventDefault();
-      return;
     }
 
     if (event.key.toLowerCase() === 'a' && event.ctrlKey) {
       event.preventDefault();
     }
+
+    if (event.key === 'Enter') {
+      this.gameService.guess(this.gameForm.controls.initial.value);
+    }
   }
 
+  protected keepOnlyInitial(): void {
+    const value: string = this.gameForm.controls.initial.value;
+    if (value.length === 1) {
+      return;
+    }
+    this.gameForm.controls.initial.setValue(this.gameForm.controls.initial.value[0])
+  }
 
   protected readonly letterToHex: (letter: string, saturation?: number, lightness?: number) => string = letterToHex;
 }
