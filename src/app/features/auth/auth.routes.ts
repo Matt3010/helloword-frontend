@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
-import {LoginComponent} from './pages/login/login';
-import {Callback} from './pages/callback/callback';
+import {LoginComponent} from './pages/login/login.component';
+import {CallbackComponent} from './pages/callback/callback.component';
 
 export const authRoutes: Routes = [
   {
@@ -9,6 +9,6 @@ export const authRoutes: Routes = [
   },
   {
     path: ':provider/callback',
-    component: Callback
+    component: CallbackComponent
   },
 ]

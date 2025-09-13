@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Token} from '../../services/token';
+import {TokenService} from '../../services/token.service';
 import {User} from '../../entities/user';
-import {Auth} from '../../services/auth';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-callback',
-  template: `<p>Redirecting...</p>`
+  template: `{{callbackTemplateContent}}`
 })
-export class Callback implements OnInit {
+export class CallbackComponent implements OnInit {
+  protected callbackTemplateContent: string = 'Redirecting...';
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly token: Token,
-    private readonly auth: Auth,
+    private readonly token: TokenService,
+    private readonly auth: AuthService,
    ) {}
 
   ngOnInit(): void {
@@ -35,7 +37,7 @@ export class Callback implements OnInit {
         this.auth.saveUser(user);
         this.router.navigate(['/']);
       } else {
-        this.router.navigate(['auth', 'login']);
+        this.callbackTemplateContent = 'Bad login!'
       }
     });
   }

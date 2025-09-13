@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import {App} from './app';
-import {onlyLogged} from './features/auth/guards/only-logged';
-import {blockIfLogged} from './features/auth/guards/block-if-logged';
+import {onlyLoggedGuard} from './features/auth/guards/only-logged.guard';
+import {blockIfLoggedGuard} from './features/auth/guards/block-if-logged.guard';
 
 export const routes: Routes = [
   {
@@ -12,13 +12,13 @@ export const routes: Routes = [
         path: 'auth',
         loadChildren: () =>
           import('./features/auth/auth.routes').then((r): Routes => r.authRoutes),
-        resolve: [blockIfLogged]
+        resolve: [blockIfLoggedGuard]
       },
       {
         path: 'guess',
         loadChildren: () =>
           import('./guess/guess.routes').then((r): Routes => r.guessRoutes),
-        resolve: [onlyLogged]
+        resolve: [onlyLoggedGuard]
       },
       {
         path: '',

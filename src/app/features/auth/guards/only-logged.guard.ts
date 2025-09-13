@@ -1,10 +1,10 @@
 import {CanActivateFn, Router} from '@angular/router';
 import {inject} from '@angular/core';
-import {Token} from '../services/token';
+import {TokenService} from '../services/token.service';
 
 
-export const onlyLogged: CanActivateFn = (route, state): boolean => {
-  const tokenService: Token = inject(Token);
+export const onlyLoggedGuard: CanActivateFn = (route, state): boolean => {
+  const tokenService: TokenService = inject(TokenService);
   const router: Router = inject(Router);
 
 

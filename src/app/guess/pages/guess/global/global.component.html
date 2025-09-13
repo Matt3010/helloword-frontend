@@ -1,0 +1,10 @@
+<div class="h-100 w-100 position-relative overflow-hidden changing-color-div" [style.background-color]="letterToHex(initial, 90 , 80)">
+    <input
+      appAlwaysFocus
+      type="text"
+      [style.color]="letterToHex(initial, 100 , 40)"
+      class="initial-letter-input"
+      [(ngModel)]="initial"
+      [placeholder]="chooseCorrectPlaceholder()"
+    />
+</div>

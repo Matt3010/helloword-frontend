@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class Token {
+export class TokenService {
 
   public get accessToken(): string | null {
     return localStorage.getItem("authToken");
@@ -11,13 +11,13 @@ export class Token {
 
   public set accessToken(token: string) {
     localStorage.setItem("authToken", token);
+    if(token === '') {
+      localStorage.removeItem("authToken");
+    }
   }
 
   public hasToken(): boolean {
     return this.accessToken !== null && this.accessToken !== '';
   }
 
-  public clearToken(): void {
-    localStorage.removeItem("authToken");
-  }
 }

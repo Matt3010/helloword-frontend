@@ -1,0 +1,39 @@
+.initial-letter-input {
+  /* Proprietà essenziali per il layout */
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 90%; /* 1. Deve avere una larghezza definita */
+
+  /* --- Il trio indispensabile per l'ellipsis --- */
+  white-space: nowrap;      /* 2. Impedisce al testo di andare a capo */
+  overflow: hidden;         /* 3. Nasconde il testo che esce dai bordi */
+  text-overflow: ellipsis;  /* 4. Mostra i "..." al posto del testo nascosto */
+  /* ------------------------------------------- */
+
+  /* Altri stili */
+  background: transparent;
+  border: none;
+  text-align: center;
+  font-weight: 700;
+  font-size: 120px;
+  caret-color: transparent;
+  text-decoration-line: none !important;
+
+  &:focus, &:active {
+    outline: none;
+  }
+
+  &:hover {
+    cursor: default;
+  }
+
+  &::selection {
+    background: transparent;
+  }
+}
+
+.changing-color-div {
+  transition: background-color 0.2s ease-in-out;
+}

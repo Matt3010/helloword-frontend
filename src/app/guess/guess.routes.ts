@@ -1,9 +1,17 @@
 import {Routes} from '@angular/router';
-import {GlobalComponent} from './pages/guess/global/global';
+import {GlobalComponent} from './pages/guess/global/global.component';
+import {GuessComponent} from './guess.component';
 
 export const guessRoutes: Routes = [
   {
-    path: 'global',
-    component: GlobalComponent,
-  }
+    path: '',
+    component: GuessComponent,
+    children: [
+      {
+        path: 'global',
+        component: GlobalComponent,
+      }
+    ]
+  },
+
 ]
