@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {AuthService} from '../../../auth/services/auth.service';
 import {AsyncPipe, NgOptimizedImage} from '@angular/common';
-import {GameService} from '../../../guess/services/game.service';
-import {letterToHex} from '../../../common/utils/letterToHex';
+ import {letterToHex} from '../../../common/utils/letterToHex';
+import {GlobalGameService} from '../../../games/global/services/global-game.service';
 
 @Component({
   selector: 'app-user-info',
@@ -17,7 +17,7 @@ export class UserInfoComponent {
 
   public constructor(
     protected readonly authService: AuthService,
-    protected readonly gameService: GameService,
+    protected readonly gameService: GlobalGameService,
   ) {
   }
 

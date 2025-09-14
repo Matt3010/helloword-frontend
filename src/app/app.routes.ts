@@ -15,20 +15,20 @@ export const routes: Routes = [
         resolve: [blockIfLoggedGuard]
       },
       {
-        path: 'guess',
+        path: '',
         loadChildren: () =>
-          import('./features/guess/guess.routes').then((r): Routes => r.guessRoutes),
+          import('./features/games/global/global-game.routes').then((r): Routes => r.globalGameRoutes),
         resolve: [onlyLoggedGuard]
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'guess/global'
+        redirectTo: 'global'
       },
       {
         path: '**',
         pathMatch: 'full',
-        redirectTo: 'guess/global'
+        redirectTo: 'global'
       }
     ]
   },

@@ -1,0 +1,11 @@
+@let initial = (gameService.globalGame$ | async)?.initial;
+@if(initial) {
+  <div class="ranking-container"
+       [style.border-top-color]="letterToHex(initial, 80, 70)"
+       [ngClass]="{'expanded': showRankings()}">
+
+    <div class="col m-0">
+      </div>
+      <div class="col m-0"></div>
+  </div>
+}

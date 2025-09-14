@@ -1,11 +1,12 @@
 import {Component, ViewChild, ElementRef} from '@angular/core'; // Importa ViewChild e ElementRef
-import {GameService} from '../../../services/game.service';
-import {letterToHex} from '../../../../common/utils/letterToHex';
+ import {letterToHex} from '../../../../common/utils/letterToHex';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AlwaysFocusDirective} from '../../../../common/directives/always-focus.directive';
-import {Game} from '../../../entities/game';
-import {AutofitFontDirective} from '../../../../common/directives/auto-fit.directive';
+ import {AutofitFontDirective} from '../../../../common/directives/auto-fit.directive';
 import {BounceOnClickDirective} from '../../../../common/directives/bounce-click.directive';
+import JSConfetti from 'js-confetti'
+import {GlobalGameService} from '../../services/global-game.service';
+import {GlobalGame} from '../../entities/global-game';
 
 @Component({
   selector: 'app-global',
@@ -34,9 +35,9 @@ export class GlobalComponent {
 
 
   public constructor(
-    protected readonly gameService: GameService,
+    protected readonly globalService: GlobalGameService,
   ) {
-    this.gameService.globalGame$.subscribe((game: Game | null): void => {
+    this.globalService.globalGame$.subscribe((game: GlobalGame | null): void => {
       if (game) {
         this.gameForm.setValue({
           id: game.id,
@@ -70,7 +71,12 @@ export class GlobalComponent {
     }
 
     if (event.key === 'Enter') {
-      this.gameService.guess(this.gameForm.controls.initial.value);
+      const jsConfetti = new JSConfetti();
+
+      this.globalService.guess(
+        this.gameForm.controls.initial.value,
+        () => jsConfetti.addConfetti()
+      );
     }
   }
 

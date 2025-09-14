@@ -6,6 +6,6 @@ export const blockIfLoggedGuard: CanActivateFn = () => {
   const tokenService = inject(TokenService);
   const router = inject(Router);
 
-  if (tokenService.hasToken()) router.navigate(['guess', 'global']);
+  if (tokenService.hasToken()) router.navigate(['global']);
   return !tokenService.hasToken();
 };
