@@ -8,7 +8,7 @@ export const globalGameRoutes: Routes = [
     component: GlobalGameComponent,
     children: [
       {
-        path: 'global',
+        path: '',
         component: GlobalComponent,
       }
     ]

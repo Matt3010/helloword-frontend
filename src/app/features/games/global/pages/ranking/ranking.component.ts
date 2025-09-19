@@ -17,7 +17,7 @@ import {User} from '../../../../auth/entities/user';
 })
 export class RankingComponent {
   public showRankings: InputSignal<boolean> = input.required<boolean>();
-  protected leaderBoard: User[] | null = null;
+  protected leaderBoardPodium: User[] | null = null;
   protected readonly ranks: ({ height: string; image: null } | {
     height: string;
     image: string
@@ -41,10 +41,10 @@ export class RankingComponent {
       const second = leaderboard[1] ?? null;
       const third = leaderboard[2] ?? null;
 
-      this.leaderBoard = [];
-      this.leaderBoard[0] = second;
-      this.leaderBoard[1] = first;
-      this.leaderBoard[2] = third;
+      this.leaderBoardPodium = [];
+      this.leaderBoardPodium[0] = second;
+      this.leaderBoardPodium[1] = first;
+      this.leaderBoardPodium[2] = third;
     });
   }
 

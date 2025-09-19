@@ -1,11 +1,18 @@
 @let initial = (gameService.globalGame$ | async)?.initial;
 @if(initial) {
-  <div class="ranking-container"
+  <div class="ranking-container row m-0"
        [style.border-top-color]="letterToHex(initial, 80, 70)"
        [ngClass]="{'expanded': showRankings()}">
 
-    <div class="col m-0">
+    <div class="col m-0 d-flex gap-3 h-100 align-items-center justify-content-center p-5">
+      @for(topPosition of leaderBoardPodium; let i = $index; track topPosition) {
+        <div class="flex-grow-1 rank {{'rank-' + i}}">
+          d
+        </div>
+      }
+    </div>
+      <div class="col m-0">
+
       </div>
-      <div class="col m-0"></div>
   </div>
 }

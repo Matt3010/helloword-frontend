@@ -15,7 +15,7 @@ export const routes: Routes = [
         resolve: [blockIfLoggedGuard]
       },
       {
-        path: '',
+        path: 'global',
         loadChildren: () =>
           import('./features/games/global/global-game.routes').then((r): Routes => r.globalGameRoutes),
         resolve: [onlyLoggedGuard]

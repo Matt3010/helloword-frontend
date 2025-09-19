@@ -18,7 +18,7 @@ export class AutofitFontDirective implements AfterViewInit, OnDestroy {
   };
 
   private resizeObserver!: ResizeObserver;
-  private debounceTimer: any;
+  private debounceTimer: number | undefined;
 
   constructor(private readonly el: ElementRef<HTMLInputElement>) {
     const canvas: HTMLCanvasElement = document.createElement('canvas');
@@ -51,7 +51,7 @@ export class AutofitFontDirective implements AfterViewInit, OnDestroy {
 
   private onResize(): void {
     clearTimeout(this.debounceTimer);
-    this.debounceTimer = setTimeout(() => this.adjustFontSize(), 100);
+    this.debounceTimer = setTimeout((): void => this.adjustFontSize(), 100);
   }
 
   private adjustFontSize(): void {
