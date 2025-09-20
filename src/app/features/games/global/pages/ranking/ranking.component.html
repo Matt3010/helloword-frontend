@@ -1,18 +1,37 @@
 @let initial = (gameService.globalGame$ | async)?.initial;
-@if(initial) {
-  <div class="ranking-container row m-0"
+@let user = authService.user$ | async;
+@if(initial && user && leaderBoard) {
+  <div class="ranking-container d-flex flex-column gap-4"
        [style.border-top-color]="letterToHex(initial, 80, 70)"
        [ngClass]="{'expanded': showRankings()}">
 
-    <div class="col m-0 d-flex gap-3 h-100 align-items-center justify-content-center p-5">
-      @for(topPosition of leaderBoardPodium; let i = $index; track topPosition) {
-        <div class="flex-grow-1 rank {{'rank-' + i}}">
-          d
+        <div class="d-flex flex-column fw-lighter">
+          <span class="ranking-title" [style.border-top-color]="letterToHex(initial, 80, 70)">Rankings</span>
+          <span class="ranking-personal-position">You are {{findLoggedUserPosition(user.id)}}<sup>{{getOrdinalSuffix(findLoggedUserPosition(user.id))}}</sup> out of {{leaderBoard.length}} players!</span>
         </div>
-      }
-    </div>
-      <div class="col m-0">
-
-      </div>
-  </div>
+      <div class="overflow-y-auto">
+        @for(topPosition of leaderBoard; track topPosition.id) {
+          <div class="d-flex flex-column">
+            <div class="d-flex justify-content-between gap-3 align-items-center">
+              <div class="d-flex gap-3 align-items-center">
+                <span class="fw-bold">{{findLoggedUserPosition(topPosition.id)}}<sup>{{getOrdinalSuffix(findLoggedUserPosition(user.id))}}</sup></span>
+                @if(topPosition.picture) {
+                  <img class="rounded-pill" [ngSrc]="topPosition.picture" width="48" height="48" alt="userProfile">
+                } @else {
+                  <svg [style.color]="letterToHex(initial, 90, 80)" width="100px" height="100px"  viewBox="-0.08 0 20.162 20.162" xmlns="http://www.w3.org/2000/svg">
+                    <g id="user-circle" transform="translate(-2 -2)">
+                      <path id="secondary" fill="currentColor" d="M18.36,5.64A9,9,0,0,0,3,12c0,.11,0,.22,0,.32A9,9,0,0,0,7,19.5H7A5,5,0,0,1,12,15a4,4,0,1,1,4-4,4,4,0,0,1-4,4,5,5,0,0,1,5,4.48h0a9,9,0,0,0,4-7.18v-.32a9,9,0,0,0-2.64-6.34Z"/>
+                      <path id="primary" d="M12,15a5,5,0,0,0-5,4.5,9,9,0,0,0,9.94,0A5,5,0,0,0,12,15Zm0-8a4,4,0,1,0,4,4A4,4,0,0,0,12,7Zm0,14h0a9,9,0,0,1-9-9H3a9,9,0,0,1,9-9h0a9,9,0,0,1,9,9h0a9,9,0,0,1-9,9Z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </g>
+                  </svg>
+                }
+                <span class="fw-light">{{topPosition.email}}</span>
+              </div>
+            <span class="fw-bold">{{topPosition.score}}</span>
+          </div>
+            <hr class="rank-separator" [style.border-block-color]="letterToHex(initial, 80, 70)">
+          </div>
+        }
+     </div>
+   </div>
 }

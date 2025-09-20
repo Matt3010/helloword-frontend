@@ -11,7 +11,7 @@ export class GoogleService {
    ) {}
 
   public login(): void {
-    window.open(this.apiUrl, '_blank');
+    window.open(this.apiUrl, '_self');
   }
 
 }

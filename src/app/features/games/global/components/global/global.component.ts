@@ -1,12 +1,13 @@
-import {Component, ViewChild, ElementRef} from '@angular/core'; // Importa ViewChild e ElementRef
- import {letterToHex} from '../../../../common/utils/letterToHex';
+import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core'; // Importa ViewChild e ElementRef
+import {letterToHex} from '../../../../common/utils/letterToHex';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AlwaysFocusDirective} from '../../../../common/directives/always-focus.directive';
- import {AutofitFontDirective} from '../../../../common/directives/auto-fit.directive';
+import {AutofitFontDirective} from '../../../../common/directives/auto-fit.directive';
 import {BounceOnClickDirective} from '../../../../common/directives/bounce-click.directive';
 import JSConfetti from 'js-confetti'
 import {GlobalGameService} from '../../services/global-game.service';
 import {GlobalGame} from '../../entities/global-game';
+import {debounce, DebouncedFunc} from 'lodash';
 
 @Component({
   selector: 'app-global',
@@ -22,6 +23,7 @@ import {GlobalGame} from '../../entities/global-game';
 })
 export class GlobalComponent {
   @ViewChild('initialInput') private readonly initialInput!: ElementRef<HTMLInputElement>;
+  @Output('noAttemptsLeft') protected noAttemptsLeft: EventEmitter<null> = new EventEmitter<null>();
 
   protected gameForm: FormGroup<{
     id: FormControl<string>;
@@ -70,15 +72,35 @@ export class GlobalComponent {
       event.preventDefault();
     }
 
-    if (event.key === 'Enter') {
-      const jsConfetti = new JSConfetti();
-
-      this.globalService.guess(
-        this.gameForm.controls.initial.value,
-        () => jsConfetti.addConfetti()
-      );
+    if (event.key === 'Enter' && this.gameForm.controls.initial.value.length > 1) {
+      this.debouncedGuess(this.gameForm.controls.initial.value);
     }
   }
+
+  private readonly debouncedGuess: DebouncedFunc<(initial: string) => void> = debounce((initial: string) => {
+    const jsConfetti = new JSConfetti();
+
+    this.globalService.guess(
+      initial,
+      (): Promise<void> => jsConfetti.addConfetti({
+        emojis: ['🎉', '✨', '💫', '🌟', '🥳', '🚀'],
+        confettiNumber: 10,
+        emojiSize: 100
+      }),
+      (): void => {
+        this.keepOnlyInitial();
+        jsConfetti.addConfetti({
+          emojis: ['💀', '☠️', '💩', '👻', '👺', '👹'],
+          confettiNumber: 10,
+          emojiSize: 100
+        });
+      },
+      (): void => {
+        this.keepOnlyInitial();
+        this.noAttemptsLeft.emit(null);
+      }
+    );
+  }, 500);
 
   protected keepOnlyInitial(): void {
     const value: string = this.gameForm.controls.initial.value;

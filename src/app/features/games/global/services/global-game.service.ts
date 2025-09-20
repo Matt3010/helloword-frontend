@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
- import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {BehaviorSubject, filter, Observable} from 'rxjs';
 import {GlobalGame} from '../entities/global-game';
 import {AuthService} from '../../../auth/services/auth.service';
 import {environment} from '../../../../../environments/environment';
@@ -20,7 +20,16 @@ export class GlobalGameService {
     private readonly authService: AuthService,
   ) {
     this.current();
+
+    this.authService.user$
+      .pipe(
+        filter((user: User | null): boolean => !!user),
+      )
+      .subscribe((): void => {
+        this.current();
+      })
   }
+
 
   public current(): void {
     this.http.get<GlobalGame | null>(`${this.apiUrl}/current`)
@@ -34,26 +43,24 @@ export class GlobalGameService {
       });
   }
 
-  // Service
-  public guess(word: string, cb?: () => void): void {
-    this.http.post<{ correct: boolean }>(`${this.apiUrl}/guess`, { word }).subscribe({
+  public guess(word: string, cbCorrect?: () => void, cbNotCorrect?: () => void, cbError?: () => void): void {
+    this.http.post<{ correct: boolean }>(`${this.apiUrl}/guess`, { word })
+      .subscribe({
       next: (res: { correct: boolean }): void => {
         if (res.correct) {
-          cb?.(); // esegui callback se presente
-          this.current();
+          cbCorrect?.();
         } else {
-          this.authService.me();
-          const currentGame: GlobalGame | null = this._globalGame$.value;
-          if (!currentGame) {
-            this.current();
-            return;
-          }
-          currentGame.initial = currentGame.initial[0];
-          this._globalGame$.next(currentGame);
+          cbNotCorrect?.();
         }
+        this.current();
+        this.authService.me();
       },
       error: (err: HttpErrorResponse): void => {
-        // TODO - handle error
+        if(err.status === 400 && err.error?.message === 'No attempts left today') {
+          cbError?.();
+        } else {
+          // TODO - Implement error.
+        }
       }
     });
   }

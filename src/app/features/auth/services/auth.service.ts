@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
+import {TokenService} from './token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class AuthService {
   public constructor(
     private readonly router: Router,
     private readonly http: HttpClient,
+    private readonly tokenService: TokenService,
   ) {
     this.me();
   }
@@ -34,6 +36,7 @@ export class AuthService {
 
   public logout(): void {
     this._user$.next(null);
-    this.router.navigate(['/']);
+    this.tokenService.accessToken = '';
+    this.router.navigate(['auth', 'login']);
   }
 }

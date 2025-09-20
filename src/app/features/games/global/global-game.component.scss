@@ -1,0 +1,51 @@
+.letter-expiration {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  pointer-events: none;
+  border-top-right-radius: 50px;
+  corner-shape: squircle;
+  transition: width 2s ease-in-out;
+}
+
+.try-again-tomorrow-span {
+  font-size: 12px;
+}
+
+.life {
+  filter: saturate(0.7);
+}
+
+.no-more-life {
+  filter: saturate(0);
+}
+
+.life-wrapper {
+  position: relative;
+  transition: opacity 0.2s ease;
+
+  &.life-wrapper-d-none {
+    opacity: 0;
+  }
+}
+
+.life-wrapper:hover .life-text-group,
+.life-wrapper.noAttemptsLeft .life-text-group {
+  transform: translateX(0);
+  opacity: 1;
+  background-color: white;
+}
+
+.life-text-group {
+  width: fit-content;
+  transform: translateX(-20px); /* parte a sinistra */
+  opacity: 0;
+  font-size: 12px;
+  background-color: rgba(255, 255, 255, 0);
+  transition: transform 0.3s ease, opacity 0.6s ease, background-color 0.3s ease;
+  border-radius: 24px;
+  corner-shape: squircle;
+  padding: 6px 12px;
+  color: black;
+}

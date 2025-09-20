@@ -1,8 +1,9 @@
-import {Component, input, InputSignal, OnInit, effect} from '@angular/core';
+import {Component, effect, input, InputSignal} from '@angular/core';
 import {GlobalGameService} from '../../services/global-game.service';
 import {AsyncPipe, NgClass, NgOptimizedImage} from '@angular/common';
 import {letterToHex} from '../../../../common/utils/letterToHex';
 import {User} from '../../../../auth/entities/user';
+import {AuthService} from '../../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-ranking',
@@ -17,17 +18,11 @@ import {User} from '../../../../auth/entities/user';
 })
 export class RankingComponent {
   public showRankings: InputSignal<boolean> = input.required<boolean>();
-  protected leaderBoardPodium: User[] | null = null;
-  protected readonly ranks: ({ height: string; image: null } | {
-    height: string;
-    image: string
-  })[] = [
-    { "height": "35%", "image": null },
-    { "height": "45%", "image": "assets/first-place.png" },
-    { "height": "40%", "image": "assets/second-place.png" }
-  ];
-
-  public constructor(protected gameService: GlobalGameService) {
+  protected leaderBoard: User[] | null = null;
+  public constructor(
+    protected gameService: GlobalGameService,
+    protected authService: AuthService,
+  ) {
     effect(() => {
       if (this.showRankings()) {
         this.loadLeaderboard();
@@ -37,17 +32,31 @@ export class RankingComponent {
 
   private loadLeaderboard(): void {
     this.gameService.leaderboard().subscribe((leaderboard: User[]): void => {
-       const first = leaderboard[0] ?? null;
-      const second = leaderboard[1] ?? null;
-      const third = leaderboard[2] ?? null;
-
-      this.leaderBoardPodium = [];
-      this.leaderBoardPodium[0] = second;
-      this.leaderBoardPodium[1] = first;
-      this.leaderBoardPodium[2] = third;
-    });
+        this.leaderBoard = leaderboard;
+      });
   }
 
+  getOrdinalSuffix(number: number): string {
+    const lastTwoDigits = number % 100;
 
-  protected readonly letterToHex = letterToHex;
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+      return 'th';
+    }
+
+    const lastDigit = number % 10;
+    switch (lastDigit) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+      default: return 'th';
+    }
+  }
+
+  protected findLoggedUserPosition(loggedUserId: string): number {
+    if (!this.leaderBoard) return -1;
+    return this.leaderBoard.findIndex(user => user.id === loggedUserId) + 1;
+  }
+
+  protected readonly letterToHex: (letter: string, saturation?: number, lightness?: number) => string = letterToHex;
+  protected readonly top = top;
 }
