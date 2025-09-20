@@ -29,7 +29,9 @@ import {GlobalComponent} from './components/global/global.component';
       <div
           class="position-fixed w-25 overflow-hidden z-2 start-0 top-0 m-3 cursor-default d-flex gap-2 align-items-center">
           @for (life of Array.from(Array.from({length: user.attemptsLeft}, Number)); track life) {
-            <img class="life" ngSrc="assets/life.png" width="20" height="20" alt="life icon">
+            <img [ngClass]="{
+            'life-d-none': settingsEnabled || rankingsEnabled,
+            }" class="life" ngSrc="assets/life.png" width="20" height="20" alt="life icon">
           } @empty {
             <div [ngClass]="{
             'life-wrapper-d-none': settingsEnabled || rankingsEnabled,

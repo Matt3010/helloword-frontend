@@ -2,11 +2,9 @@
   "name": "helloword-webapp",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "docker-deploy": "docker build -t helloword-webapp . && docker tag helloword-webapp:latest matt3010/helloword-webapp:latest && docker push matt3010/helloword-webapp:latest"
   },
   "private": true,
   "dependencies": {
