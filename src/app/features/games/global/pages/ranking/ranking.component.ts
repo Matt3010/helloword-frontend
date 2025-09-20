@@ -24,7 +24,7 @@ export class RankingComponent {
     protected authService: AuthService,
   ) {
     effect(() => {
-      if (this.showRankings()) {
+      if (this.showRankings() && !this.leaderBoard) { // Prevent multiple calls
         this.loadLeaderboard();
       }
     });
@@ -32,11 +32,12 @@ export class RankingComponent {
 
   private loadLeaderboard(): void {
     this.gameService.leaderboard().subscribe((leaderboard: User[]): void => {
-        this.leaderBoard = leaderboard;
-      });
+      this.leaderBoard = leaderboard;
+    });
   }
 
   getOrdinalSuffix(number: number): string {
+    if (!number || number < 1) return '';
     const lastTwoDigits = number % 100;
 
     if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
@@ -53,10 +54,9 @@ export class RankingComponent {
   }
 
   protected findLoggedUserPosition(loggedUserId: string): number {
-    if (!this.leaderBoard) return -1;
+    if (!this.leaderBoard) return 0; // Return 0 instead of -1 for better display
     return this.leaderBoard.findIndex(user => user.id === loggedUserId) + 1;
   }
 
-  protected readonly letterToHex: (letter: string, saturation?: number, lightness?: number) => string = letterToHex;
-  protected readonly top = top;
+  protected readonly letterToHex = letterToHex;
 }

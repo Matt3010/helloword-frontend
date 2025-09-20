@@ -7,7 +7,7 @@ import {SettingsComponent} from '../../settings/pages/settings/settings.componen
 import {letterToHex} from '../../common/utils/letterToHex';
 import {RankingComponent} from './pages/ranking/ranking.component';
 import {AuthService} from '../../auth/services/auth.service';
-import {GlobalComponent} from './components/global/global.component';
+import {GlobalComponent} from './pages/global/global.component';
 
 @Component({
   selector: 'app-global-game',
@@ -68,8 +68,6 @@ import {GlobalComponent} from './components/global/global.component';
       <app-global (noAttemptsLeft)="notifyNoAttemptsLeft()"/>
     </div>
     <app-ranking [showRankings]="rankingsEnabled"/>
-
-    <div  [style.background-color]="letterToHex(initial, 100, 20)" style.width="{{currentProgress}}%" class="letter-expiration"></div>
     }
   `
 })
@@ -77,16 +75,11 @@ export class GlobalGameComponent {
   protected settingsEnabled: boolean = false;
   protected rankingsEnabled: boolean = false;
   protected noAttemptsLeftNotified: boolean = false;
-  protected currentProgress: number = 0;
 
   public constructor(
     protected readonly gameService: GlobalGameService,
     protected readonly authService: AuthService,
   ) {
-    setInterval((): void => {
-      this.currentProgress = this.cronProgressPercentRome();
-    }, 10000)
-    this.currentProgress = this.cronProgressPercentRome();
   }
 
   protected notifyNoAttemptsLeft(): void {
@@ -94,27 +87,6 @@ export class GlobalGameComponent {
      setTimeout((): void => {
         this.noAttemptsLeftNotified = false
       }, 5000);
-  }
-
-  protected cronProgressPercentRome(): number {
-    const tz = 'Europe/Rome';
-    const now = new Date();
-
-    const nowTz = new Date(now.toLocaleString('en-US', { timeZone: tz }));
-
-    const start = new Date(
-      nowTz.getFullYear(),
-      nowTz.getMonth(),
-      nowTz.getDate(),
-      0, 0, 0
-    );
-
-    const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
-
-    const offsetNow: number = nowTz.getTime() - start.getTime();
-    const duration: number = end.getTime() - start.getTime();
-
-    return (offsetNow / duration) * 100;
   }
 
   protected toggleSettings(): void {

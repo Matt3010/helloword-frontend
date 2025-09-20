@@ -2,7 +2,7 @@
   "name": "helloword-webapp",
   "version": "0.0.0",
   "scripts": {
-    "start": "ng serve",
+    "start": "ng serve --port 4201",
     "build": "ng build",
     "docker-deploy": "docker build -t helloword-webapp . && docker tag helloword-webapp:latest matt3010/helloword-webapp:latest && docker push matt3010/helloword-webapp:latest"
   },

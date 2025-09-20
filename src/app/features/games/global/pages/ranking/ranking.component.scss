@@ -14,29 +14,19 @@ $animation-duration: 0.5s;
   transform: translateY(100%);
   transition: transform $animation-duration ease;
 
-  .ranking-content {
-    opacity: 0;
-    height: 100%;
-    overflow-y: auto;
-    transition: opacity ($animation-duration / 2) ease-in-out ($animation-duration / 2);
-  }
-
   &.expanded {
     transform: translateY(0);
-
-    .ranking-content {
-      opacity: 1;
-    }
   }
 }
 
 * {
-  color: white;
+  color: #ffffff;
 }
 
 .ranking-title {
   font-size: 48px;
 }
+
 .ranking-personal-position {
   font-size: 32px;
 }
