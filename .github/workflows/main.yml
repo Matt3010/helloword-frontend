@@ -1,12 +1,8 @@
-# This workflow checks out the code, logs into Docker Hub,
-# and runs the "docker:deploy" script from your package.json.
-
 name: Deploy with Docker via npm Script
 
-# Controls when the action will run. 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build-and-deploy:
