@@ -1,7 +1,6 @@
 import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core'; // Importa ViewChild e ElementRef
 import {letterToHex} from '../../../../common/utils/letterToHex';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AlwaysFocusDirective} from '../../../../common/directives/always-focus.directive';
 import {AutofitFontDirective} from '../../../../common/directives/auto-fit.directive';
 import {BounceOnClickDirective} from '../../../../common/directives/bounce-click.directive';
 import JSConfetti from 'js-confetti'
@@ -13,7 +12,6 @@ import {debounce, DebouncedFunc} from 'lodash';
   selector: 'app-global',
   imports: [
     FormsModule,
-    AlwaysFocusDirective,
     ReactiveFormsModule,
     AutofitFontDirective,
     BounceOnClickDirective,
