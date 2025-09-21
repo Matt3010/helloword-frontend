@@ -13,8 +13,8 @@
       </svg>
     }
     <div class="d-flex gap-2 flex-nowrap align-items-center">
-      <span class="fw-lighter fs-3">{{ user.email }}</span>
-      <div appBounceOnClick class="p-1 cursor-pointer" (keyup)="authService.logout()" (click)="authService.logout()">
+      <span class="fw-lighter user-email d-inline text-truncate mw-100">{{ user.email }}</span>
+      <div  class="p-1 cursor-pointer" (keyup)="authService.logout()" (click)="authService.logout()">
         <img src="assets/logout.svg" width="20px" alt="">
       </div>
     </div>

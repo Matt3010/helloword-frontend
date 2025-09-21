@@ -15,7 +15,6 @@ import {GlobalGameService} from '../../../games/global/services/global-game.serv
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-
   public showSettings: InputSignal<boolean> = input.required<boolean>();
 
   public constructor(
