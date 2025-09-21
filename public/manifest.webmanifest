@@ -1,0 +1,11 @@
+{
+  "name": "HelloWord",
+  "short_name": "HelloWord",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#222222",
+  "theme_color": "#222222",
+  "display": "standalone",
+  "scope": "./",
+  "orientation": "portrait-primary"
+}
