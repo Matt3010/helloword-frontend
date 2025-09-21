@@ -19,6 +19,7 @@
     "bootstrap": "^5.3.8",
     "js-confetti": "^0.13.1",
     "lodash": "^4.17.21",
+    "ngx-device-detector": "^10.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

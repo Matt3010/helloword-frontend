@@ -1,3 +1,7 @@
-.error-banner {
-  height: 48px;
+.app-style {
+  height: 100%;
+ &.mobile {
+   border-radius: 30px;
+    overflow: hidden;
+ }
 }

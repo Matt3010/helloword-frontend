@@ -8,6 +8,9 @@ justify-content-center flex-column"
     type="text"
     [style.color]="letterToHex(gameForm.controls.initial.value, 100, 40)"
     class="initial-letter-input"
+    [ngClass]="{
+      'mobile': deviceService.isMobile(),
+     }"
     [formControl]="gameForm.controls.initial"
     (keydown)="preventSingleLetterDelete($event)"
     (click)="moveCursorToEnd()"

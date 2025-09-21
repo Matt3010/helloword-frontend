@@ -1,6 +1,10 @@
 .initial-letter-input {
   width: 90%;
 
+  &.mobile {
+    width: 100%;
+  }
+
   background: transparent;
   border: none;
   text-align: center;

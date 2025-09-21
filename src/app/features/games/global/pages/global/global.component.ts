@@ -7,6 +7,8 @@ import JSConfetti from 'js-confetti'
 import {GlobalGameService} from '../../services/global-game.service';
 import {GlobalGame} from '../../entities/global-game';
 import {debounce, DebouncedFunc} from 'lodash';
+import {NgClass} from '@angular/common';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-global',
@@ -15,6 +17,7 @@ import {debounce, DebouncedFunc} from 'lodash';
     ReactiveFormsModule,
     AutofitFontDirective,
     BounceOnClickDirective,
+    NgClass,
   ],
   templateUrl: './global.component.html',
   styleUrl: './global.component.scss'
@@ -36,6 +39,7 @@ export class GlobalComponent {
 
   public constructor(
     protected readonly globalService: GlobalGameService,
+    protected readonly deviceService: DeviceDetectorService
   ) {
     this.globalService.globalGame$.subscribe((game: GlobalGame | null): void => {
       if (game) {
