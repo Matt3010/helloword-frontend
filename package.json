@@ -4,7 +4,7 @@
   "scripts": {
     "start": "ng serve --port 4201",
     "build": "ng build",
-    "docker:deploy": "docker buildx build --platform linux/arm64 -t helloword-webapp . && docker tag helloword-webapp:latest matt3010/helloword-webapp:latest && docker push matt3010/helloword-webapp:latest"
+    "docker:deploy": "docker buildx build --platform linux/arm64 -t matt3010/helloword-webapp:latest . --push"
   },
   "private": true,
   "dependencies": {
